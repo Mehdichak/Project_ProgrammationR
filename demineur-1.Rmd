@@ -1,0 +1,59 @@
+---
+title: "demineur_1"
+author: "Mohamed Mehdi Chakroun"
+date: "2023-02-24"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+##Ce code crée une grille de démineur de 10x10 avec 10 mines aléatoirement placées. La fonction num_adjacent_mines calcule le nombre de mines adjacentes à une case donnée, et la grille est affichée à l'utilisateur. L'utilisateur est invité à sélectionner une case, et si la case contient une mine, le jeu se termine, sinon le nombre de mines adjacentes est affiché. Notez que ce code ne gère pas la révélation récursive des cases adjacentes à une case vide, ce qui serait nécessaire pour un vrai jeu de démineur.
+```
+
+
+```{r}
+# Définition de la taille de la grille et du nombre de mines
+grid_size <- 10
+num_mines <- 10
+
+# Création de la grille
+grid <- matrix(rep(" ", grid_size^2), nrow = grid_size, ncol = grid_size)
+
+
+# Placement des mines aléatoirement sur la grille
+mine_locs <- sample(1:(grid_size^2), num_mines, replace = FALSE)
+grid[mine_locs] <- "X"
+
+
+```
+
+
+
+```{r}
+# Fonction pour déterminer le nombre de mines adjacentes à une case
+num_adjacent_mines <- function(i, j) {
+  if (grid[i, j] == "X") {
+    return("X")
+  }
+  num_mines <- 0
+  for (di in -1:1) {
+    for (dj in -1:1) {
+      if (i+di >= 1 && i+di <= grid_size && j+dj >= 1 && j+dj <= grid_size) {
+        if (grid[i+di, j+dj] == "X") {
+          num_mines <- num_mines + 1
+        }
+      }
+    }
+  }
+  return(as.character(num_mines))
+}
+```
+
+```{r}
+# Affichage de la grille
+print(grid)
+
+```
