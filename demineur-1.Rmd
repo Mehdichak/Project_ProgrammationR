@@ -60,3 +60,18 @@ num_adjacent_mines <- function(i, j) {
 print(grid)
 
 ```
+
+```{r}
+# Demande de l'utilisateur pour sélectionner une case
+selected_i <- as.integer(readline("Entrez la rangée: "))
+selected_j <- as.integer(readline("Entrez la colonne: "))
+
+# Vérification de la case sélectionnée
+if (grid[selected_i, selected_j] == "X") {
+  print("BOOM! Vous avez perdu!")
+} else {
+  num_mines <- num_adjacent_mines(selected_i, selected_j)
+  grid[selected_i, selected_j] <- num_mines
+  print(grid)
+}
+```
