@@ -1,0 +1,3 @@
+##Ce code crée une grille de démineur de 10x10 avec 10 mines aléatoirement placées. La fonction num_adjacent_mines calcule le nombre de mines adjacentes à une case donnée,
+et la grille est affichée à l'utilisateur. L'utilisateur est invité à sélectionner une case, et si la case contient une mine, le jeu se termine, sinon le nombre de mines adjacentes est affiché. 
+Notez que ce code ne gère pas la révélation récursive des cases adjacentes à une case vide,ce qui serait nécessaire pour un vrai jeu de démineur.
