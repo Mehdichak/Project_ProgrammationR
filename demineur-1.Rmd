@@ -1,5 +1,5 @@
 ---
-title: "demineur_1"
+title: "demineur_generique"
 author: "Mohamed Mehdi Chakroun"
 date: "2023-02-24"
 output: html_document
