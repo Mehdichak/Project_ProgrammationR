@@ -28,13 +28,13 @@ mygame <- function(ny=12, nx=25, prob=0.80)
   {
     if ( toupper(substr(sysName,1,3)) == 'LIN' )
       #x11(width=650/dpi, height=650/dpi/nx*(8+ny))
-      dev.new(width=650/dpi, height=650/dpi/nx*(8+ny))
+      dev.new(width=650/dpi, height=650/dpi/nx*(10+ny))
     else if ( toupper(substr(sysName,1,3)) == 'DAR')
       #quartz(width=650/dpi, height=650/dpi/nx*(8+ny))
-      dev.new(width=650/dpi, height=650/dpi/nx*(8+ny))
+      dev.new(width=650/dpi, height=650/dpi/nx*(10+ny))
     else
       #windows(width=650/dpi, height=650/dpi/nx*(8+ny))
-      dev.new(width=650/dpi, height=650/dpi/nx*(8+ny))
+      dev.new(width=650/dpi, height=650/dpi/nx*(10+ny))
   }
   
   
