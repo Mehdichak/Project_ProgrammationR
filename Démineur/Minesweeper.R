@@ -1,11 +1,8 @@
-mygame <- function(ny,nx,prob){
-  
-  # Paramètre (reste égal à 1)
-  
-  w=1;
+game <- function(ny,nx,prob){
   
   # Initialisation
   
+  w=1;
   dev.new(10, 10)
   wsize=dev.size('px');
   dpi=wsize[1]/10
@@ -26,15 +23,14 @@ mygame <- function(ny,nx,prob){
     }
   }
   
-  # Configuration de la zone de plot
+  # Configuration de la zone de plot, titre et instruction : 
   
   par(mar=c(1,1,1,1))
   plot(c(0,nx*w),c(0-5,(ny+2)*w),type='n',ann=FALSE , axes=FALSE)
   str_instruct='Clic gauche pour creuser.\nClic droit pour mettre un drapeau'
   text(0,-4,str_instruct,font=1,adj=c(0,0),cex=1.2)
   text(nx/2,(ny +2),'Démineur',font=2, cex=2.5)
-  text(nx/2*0.995,(ny+2 )*0.995,'Démineur',font=2, cex=2.5,col='red')
-  
+  text(nx/2*0.995,(ny+2 )*0.995,'Démineur',font=2, cex=2.5,col='black')
   
   # Préparation des bombes :
   
@@ -43,7 +39,7 @@ mygame <- function(ny,nx,prob){
   curIrcley=sin(theta);
   rm(theta)
   
-  ##################################################################################################################################
+  # Création de la grille :
   
   plotij<-function(i,j,col){
     
@@ -116,9 +112,7 @@ mygame <- function(ny,nx,prob){
               col='#000000',border=NA )   
     }  
   }
-  
-  ##################################################################################################################################
-  
+
   plotbutton <- function (xloc,yloc,w1,w2,r,str) {
     
     polygon(c(xloc +r ,xloc +r,xloc+w1 -r,xloc+w1 -r ), 
@@ -133,8 +127,6 @@ mygame <- function(ny,nx,prob){
     text(xloc+w1/2-0.01,yloc-w2/2-0.01,str,font=1,cex=1.2,col='#000000')
     text(xloc+w1/2,yloc-w2/2,str,font=1,cex=1.2,col='#FF0000')
   }
-  
-  ##################################################################################################################################
   
   # Initialisations des variables :
   
@@ -168,15 +160,14 @@ mygame <- function(ny,nx,prob){
   bnum=paste('Bombes Restante :', formatC(sum(img)-sum(right),format='d',digits=3),'  '  ) ;
   legend(nx/2, -3.5,bnum,cex=1.2,text.col="blue", box.col="red",bg="yellow")   
   
-  ##################################################################################################################################
-  
+  # Configuration Bouton : 
+   
   w1=5;
   w2=2;
   r=0.3
+  
   plotbutton(nx*3/4,-1,w1,w2,r,'Quitter')
   plotbutton(nx*2/4,-1,w1,w2,r,'Recommencer')
-  
-  ##################################################################################################################################
   
   mousedown <-function(button,x,y){
     
@@ -201,7 +192,6 @@ mygame <- function(ny,nx,prob){
                 c(yloc - r,yloc-w2 +r,yloc-w2 +r ,yloc -r),
                 col='#AA9999',border=NA )
         text(xloc+w1/2-0.01,yloc-w2/2-0.01,'Restart',font=1,cex=.7,col='#000000')
-        text(xloc+w1/2,yloc-w2/2,'Restart',font=1,cex=.7,col='#FF0000')
       }
       x0=nx*3/4
       y0=-1
@@ -219,7 +209,6 @@ mygame <- function(ny,nx,prob){
                 c(yloc - r,yloc-w2 +r,yloc-w2 +r ,yloc -r),
                 col='#AA9999',border=NA )
         text(xloc+w1/2-0.01,yloc-w2/2-0.01,'Quit',font=1,cex=.7,col='#000000')
-        text(xloc+w1/2,yloc-w2/2,'Quit',font=1,cex=.7,col='#FF0000')
       }
       return(NULL)
     }
@@ -235,8 +224,6 @@ mygame <- function(ny,nx,prob){
     return(NULL)
   }
   
-  ##################################################################################################################################
-  
   mouseup <-function(button,x,y){
     
     x=grconvertX(x, "ndc", "user")
@@ -247,9 +234,9 @@ mygame <- function(ny,nx,prob){
     # Bouton Recommencer
     
     if (clickRestart){
-      clickRestart<<-FALSE # Réinitialisation de clickResart
+      clickRestart<<-FALSE
       
-      #Initialize variables to store status of the grid 
+      # Initialisation des variables :
       
       img<<-matrix(as.numeric(runif(nx*ny) > prob ),nrow=ny);
       num<<-img*0;
@@ -288,16 +275,14 @@ mygame <- function(ny,nx,prob){
       
       return(NULL)
     }
-    
     if (clickQuit){
       dev.off()
     }
-    
     if ( !(x < (nx*w) & x > 0 & y < (ny*w) & y > 0 )){      
       return(NULL)
     }
-    
     if (taskFailure ==1 | taskFinished==1){return(NULL)}
+    
     i= ceiling(x/w);
     j= ceiling((ny*w-y)/w);
     
@@ -314,12 +299,11 @@ mygame <- function(ny,nx,prob){
       }
       return(NULL)
     }
-    
     if (button[1]==0){
       if (right[j,i]==1 ){
         plotij(i,j,'flag')
-        return(NULL)}
-      
+        return(NULL)
+        }
       if ( left[j,i]==0 ){
         if (img[j,i]==0){
           plotij(i,j,'open'); plottext(i,j)
@@ -373,9 +357,7 @@ mygame <- function(ny,nx,prob){
     }
     return(NULL)
   }
-  
-  ##########################################################################################################
-  
+
   plottext<-function (i,j){
     if (num[j,i] > 0){
       idx=num[j,i];
@@ -384,9 +366,7 @@ mygame <- function(ny,nx,prob){
       text( (i-0.5)*w ,(ny-j+0.5)*w, toString(num[j,i]),col=col[idx], font=2 )
     }
   }
-  
-  ##########################################################################################################
-  
+
   hitzero <- function(i,j){    
     for(M in -1:1){
       for (N in -1:1){
@@ -404,8 +384,6 @@ mygame <- function(ny,nx,prob){
       }
     }   
   }
-  
-  #########################################################################################################
   
   hitflag <- function (i,j){    
     imgsub=img[ max(j-1,1):min(j+1,ny) ,  max(i-1,1):min(i+1,nx)        ]
@@ -426,14 +404,12 @@ mygame <- function(ny,nx,prob){
       }
     }
   }
-  
   getGraphicsEvent("Démineur",
                    onMouseDown = mousedown,
-                   onMouseUp= mouseup,
-  )
+                   onMouseUp= mouseup,)
 }
 
-  #########################################################################################################
+#########################################################################################################
 
 Minesweeper <- function(n){
   if (n == 5) {
@@ -448,3 +424,4 @@ Minesweeper <- function(n){
     mygame(10,20,0.95) # Easy
   }
 }
+Minesweeper(3)
