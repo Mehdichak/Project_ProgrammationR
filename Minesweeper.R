@@ -1,30 +1,19 @@
-#set up height (ny) and width (nx) for grid 
-#ny=12;
-#nx=25;
-#prob=0.89
-
-mygame <- function(ny=12, nx=25, prob=0.80)
-{
+mygame <- function(ny=12, nx=25, prob=0.80){
   
+  # set the grid size & should be always kept 1 
   
-  
-  #set the grid size & should be always kept 1 
   w=1;
   
-  #dev.new(width=nx/2, height=ny/2)
-  #win.graph(width=nx/3, height=(7+ny)/3)
+  # create a temporary window to calculate the dot per inch
   
-  #create a temporary window to calculate the dot per inch
-  #x11(10,10)
   dev.new(10, 10)
-  
   wsize=dev.size('px');
   dpi=wsize[1]/10
   dev.off()
-  #use dpi to create a window with a width of about 600 pixels
+  
+  # use dpi to create a window with a width of about 600 pixels
   
   sysName=Sys.info()['sysname']
-  
   {
     if ( toupper(substr(sysName,1,3)) == 'LIN' )
       #x11(width=650/dpi, height=650/dpi/nx*(8+ny))
@@ -37,8 +26,8 @@ mygame <- function(ny=12, nx=25, prob=0.80)
       dev.new(width=650/dpi, height=650/dpi/nx*(8+ny))
   }
   
-  
   # configure plotting area
+  
   par(mar=c(1,1,1,1))
   plot(c(0,nx*w),c(0-5,(ny+2)*w),type='n',ann=FALSE , axes=FALSE)
   str_instruct='Left-click to clear a spot.\nRight-click to flag a spot.\nMiddle-click(wheel) to  \nopen neighor spots.'
@@ -48,14 +37,16 @@ mygame <- function(ny=12, nx=25, prob=0.80)
   text(nx/2*0.995,(ny+2 )*0.995,'Minesweeper',font=2, cex=2.5,col='red')
   
   
-  #prepare the curIrcle pattern for the bomb icon
+  # prepare the curIrcle pattern for the bomb icon
+  
   theta=seq(1,100)/100 *2*3.1415935;
   curIrclex=cos(theta);
   curIrcley=sin(theta);
   rm(theta)
   
   
-  ###################################
+  ######################################################################################################################
+  
   plotij<-function(i,j,col)
   {
     i=i-1;
@@ -150,7 +141,9 @@ mygame <- function(ny=12, nx=25, prob=0.80)
     
     
   }
-  ####################################################################
+  
+  #############################################################################################################
+  
   plotbutton <- function (xloc,yloc,w1,w2,r,str) {
     
     polygon(c(xloc +r ,xloc +r,xloc+w1 -r,xloc+w1 -r ), 
@@ -165,28 +158,29 @@ mygame <- function(ny=12, nx=25, prob=0.80)
     text(xloc+w1/2-0.01,yloc-w2/2-0.01,str,font=1,cex=1.2,col='#000000')
     text(xloc+w1/2,yloc-w2/2,str,font=1,cex=1.2,col='#FF0000')
   }
-  ######################################################################
-  ###################################################################
   
-  #Initialize variables to store status of the grid 
+  ############################################################################################################
+  
+  # Initialize variables to store status of the grid
+  
   img=matrix(as.numeric(runif(nx*ny) > prob ),nrow=ny);
   num=img*0;   # the number of bombs in 3x3 window
-  #couting the number of bomb for each spot 
+  
+  # counting the number of bomb for each spot 
+  
   for (i in 1:ny)
     for (j in 1:nx)
     { num[i,j]= sum( img[ max((i-1),1):min((i+1),ny)      ,  max((j-1),1):min((j+1),nx)     ]) }
   
-  left=img*0;  # status indicating whetehr a spot is cleared or not 
+  left=img*0;  # status indicating whether a spot is cleared or not 
   right=img*0; # status indicating whether a spot is flagged or not 
   process0=img*0; # status indicating whether a spot is cleared or not when wheel-clicking
   taskFailure=0;
   taskFinished=0;
   
-  
   for (i in 1:nx)
     for (j in 1:ny)
       plotij(i,j, 'close' )  
-  
   
   curI=0;
   curJ=0;
@@ -196,13 +190,17 @@ mygame <- function(ny=12, nx=25, prob=0.80)
   clickQuit=FALSE
   bnum=paste('Number of bombs left: ', formatC(sum(img)-sum(right),format='d',digits=3),'  '  ) ;
   legend(nx/2, -3.5,bnum,cex=1.2,text.col="blue", box.col="red",bg="yellow")   
-  ########################################################################
+  
+  #################################################################
+  
   w1=5;
   w2=2;
   r=0.3
   plotbutton(nx*3/4,-1,w1,w2,r,'Quit')
   plotbutton(nx*2/4,-1,w1,w2,r,'Restart')
+  
   ##################################################################
+  
   mousedown <-function(button,x,y){
     
     x=grconvertX(x, "ndc", "user")
@@ -218,7 +216,9 @@ mygame <- function(ny=12, nx=25, prob=0.80)
       w1=5;
       w2=2;
       r=0.3
+      
       #hit the restart button
+      
       if ( x > (x0+r) & x < (x0+w1-r) & y < (y0-r) & y > (y0-w2+r)  )
       {           
         clickRestart<<-TRUE
@@ -238,7 +238,9 @@ mygame <- function(ny=12, nx=25, prob=0.80)
       w1=5;
       w2=2;
       r=0.3
+      
       #hit the quit button
+      
       if ( x > (x0+r) & x < (x0+w1-r) & y < (y0-r) & y > (y0-w2+r)  )
       {
         clickQuit<<-TRUE
@@ -270,7 +272,9 @@ mygame <- function(ny=12, nx=25, prob=0.80)
     
     return(NULL)
   }
-  #$#$$$$$$$$$$$$$$$$$$$$$$$$$$################
+  
+  ##################################################################################################
+  
   mouseup <-function(button,x,y){
     
     x=grconvertX(x, "ndc", "user")
@@ -281,15 +285,20 @@ mygame <- function(ny=12, nx=25, prob=0.80)
     ##points(x, y)
     
     #if the Restart button has been clicked
+    
     if (clickRestart)
     {
       #reset the clickResart status variable
+      
       clickRestart<<-FALSE
       
       #Initialize variables to store status of the grid 
+      
       img<<-matrix(as.numeric(runif(nx*ny) > prob ),nrow=ny);
       num<<-img*0;   # the number of bombs in 3x3 window
+      
       #couting the number of bomb for each spot 
+      
       for (i in 1:ny)
         for (j in 1:nx)
         { num[i,j]<<- sum( img[ max((i-1),1):min((i+1),ny)      ,  max((j-1),1):min((j+1),nx)     ]) }
@@ -329,6 +338,7 @@ mygame <- function(ny=12, nx=25, prob=0.80)
     
     
     #if click the region out of spot canvas
+    
     if ( !(x < (nx*w) & x > 0 & y < (ny*w) & y > 0 ) )  
     {      
       return(NULL)
@@ -356,7 +366,6 @@ mygame <- function(ny=12, nx=25, prob=0.80)
     }
     
     if (button[1]==0) {
-      #####################
       if (right[j,i]==1 ) {
         plotij(i,j,'flag')
         return(NULL)}
@@ -391,7 +400,6 @@ mygame <- function(ny=12, nx=25, prob=0.80)
           
         }
       }
-      #####################    
     }
     else if (button[1]==2)
     {
@@ -427,8 +435,7 @@ mygame <- function(ny=12, nx=25, prob=0.80)
           legend(nx/2, -3.5,bnum,cex=1.2,text.col="blue", box.col="red",bg="yellow")    
           
         }
-        
-        
+  
       }
       
     }
@@ -447,7 +454,9 @@ mygame <- function(ny=12, nx=25, prob=0.80)
     
     return(NULL)
   }
-  #########################################
+  
+  ##########################################################################################################
+  
   plottext<-function (i,j){
     if (num[j,i] > 0)
     {
@@ -457,7 +466,9 @@ mygame <- function(ny=12, nx=25, prob=0.80)
       text( (i-0.5)*w ,(ny-j+0.5)*w, toString(num[j,i]),col=col[idx], font=2 )
     }
   }
-  ####################################
+  
+  ##########################################################################################################
+  
   hitzero <- function (i,j){    
     for(M in -1:1)
     {
@@ -483,7 +494,9 @@ mygame <- function(ny=12, nx=25, prob=0.80)
     }   
     
   }
-  ###############################################
+  
+  #########################################################################################################
+  
   hitflag <- function (i,j){    
     imgsub=img[ max(j-1,1):min(j+1,ny) ,  max(i-1,1):min(i+1,nx)        ]
     rightsub=right[ max(j-1,1):min(j+1,ny) ,  max(i-1,1):min(i+1,nx)        ]
@@ -515,5 +528,9 @@ mygame <- function(ny=12, nx=25, prob=0.80)
                    onMouseUp= mouseup,
   )
 }
-X11(type = "Xlib")
-mygame(10,20,0.9)
+
+mygame(10,20,0.01) # Luck
+mygame(10,20,0.7) # Expert
+mygame(10,20,0.8)  # hard
+mygame(10,20,0.9) # Medium
+mygame(10,20,0.95) # Easy
