@@ -1,0 +1,97 @@
+---
+title: "démineur_2"
+author: "Arthur TENA"
+date: "2/21/2023"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library("ggplot2")
+library("data.table")
+library("shiny")
+library("timeR")
+```
+
+## Data 1 : les données que l'ont a pour chaque case 
+
+```{r}
+valeur=seq(from=0, to=9, by=1) ##1 à car le nb max de bombe est 8 autour d'une case 
+bombe=rep(c(TRUE,FALSE), c(3,7)) ## Il y a 3 bombes sur 10 cases 
+decouverte=rep(c(TRUE,FALSE), c(5,5)) 
+data_case=data.frame(valeur,bombe,decouverte)
+set_valeur=function(){
+  return(data_case$valeur)}
+set_bombe=function(){
+  return(data_case$bombe)}
+set_decouverte=function(){
+  return(data_case$decouverte)}
+retour=function(){
+  return(data_case$valeur)
+}
+```
+
+## Etape 1 :
+On crée la grille et on rentre les valeurs à chaque case à m colonnes, n lignes et p bombes.
+On fait une base de donnée du tableau qui évolue petit à petit
+
+## On va gérer les 2 ème data du tableau, le tableau en lui meme et si une case est jouable
+
+```{r}
+case_jouable=c(TRUE,FALSE)
+tab=matrix(data_case$valeur[1],nrow=data_tab1$taille_lig, ncol=data_tab1$taille_col)
+data_tab2=data.frame(case_jouable, tab)
+``` 
+
+```{r}
+## On mets les bombes aléatoirement sur la matrice de 0 que l'on affiche par la valeur 9 
+creer_grille=function(n,m,p){
+  taille_col=m
+  taille_lig=n
+  nb_bb=p
+  data_tab1=data.frame(taille_col,taille_lig,nb_bb)
+  cmpt_bb=0
+   while (cmpt_bb<p) {
+    X=sample(x=1:data_tab1$taille_lig)
+    Y=sample(y=1:data_tab1$taille_col) ## On placeles bombes aléatoirement
+    data_tab2$tab[X][Y]=data_case$valeur[10]
+    data_tab2$tab[X][Y]=data_case$bombe[1] ##On veut aue tab[X][Y] recoive T/F de la data_case$bombe
+      else if (tab[X][Y]$data_case$bombe==TRUE, cmpt_bb, (cmpt_bb+1)&(data_tab2$case_jouable[2])) ## S'il y a déja une bombe on n'augmente pas le compteur de bombe
+   }
+}
+
+
+## On augmente la valeur des cases adjacentes de la bombe :
+place_bombe=function(x,y){
+  data_tab2$tab[x][y]==data_case$bombe[1]
+  for (k in c(x-1,x+2)) {
+    for (i in c(y-1,y+2)) {
+      if ((k>0)&(i>0)&(k<=data_tab1$taille_col)&(i<=data_tab1$taille_lig)){
+        data_tab2$tab[k][i]==set_valeur(data_case$valeur+1)
+      }
+    }
+  }
+}
+
+```
+
+##Data Victoire/Défaite
+
+```{r}
+defaite=c(TRUE,FALSE)
+victoire=c(TRUE,FALSE)
+data_partie=data.frame(defaite,victoire)
+gagner=function(){
+  set_defaite=data_partie$defaite[2] ## On initialise sur FALSE
+  set_victoire=data_partie$victoire[2] ## On initialise sur FALSE
+  while ((data_partie$defaite==FALSE)&(data_partie$victoire==FALSE)) {
+    
+  }
+}
+
+
+
+```
+
+
+
+
