@@ -408,4 +408,4 @@ Minesweeper <- function(n){
     game(10, 20, 0.95) # Easy
   }
 }
-Minesweeper(1) #Example 
+#Minesweeper(1) #Example 
