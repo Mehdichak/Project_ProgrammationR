@@ -13,3 +13,5 @@ n = 3 : Difficile
 n = 4 : Expert
 
 n = 5 : Test de chance
+
+Le programme doit être exécuté pour fonctionner. Attention : le premier lancement peut avoir un disfonctionnement et afficher dans la fenêtre plot de Rstudio, un nouveau lancement du programme devrait corriger ce problème et ouvrir une fenêtre de démineur. 
