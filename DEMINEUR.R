@@ -410,6 +410,7 @@ Minesweeper <- function(n){
 }
 #Minesweeper(1) #Example 
 #Minesweeper(1) #Example 
+##################################################################################################################################################################
 library(shiny)
 ui <- fluidpage (
   titlePanel("Demineur"),
