@@ -397,7 +397,7 @@ game <- function(nb_rows, nb_cols, prob){
 
 Minesweeper <- function(n){
   if (n == 5){
-    game(10, 20, 0.01) # Luck
+    game(10, 20, 0.01) # One Luck
   } else if (n == 4){
     game(10, 20, 0.7) # Expert
   } else if (n == 3){
@@ -408,3 +408,4 @@ Minesweeper <- function(n){
     game(10, 20, 0.95) # Easy
   }
 }
+Minesweeper(1) #Example 
