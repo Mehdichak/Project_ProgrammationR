@@ -417,7 +417,7 @@ ui <- fluidPage(
   titlePanel("Démineur"),
   sidebarLayout(
     sidebarPanel(
-      numericInput("n", "Taille de la grille :", value = 10, min = 2, max = 20, step = 1),
+      numericInput("n", "Difficulté :", value = 2, min = 1, max = 5, step = 1),
       actionButton("play", "Jouer !")
     ),
     mainPanel(
