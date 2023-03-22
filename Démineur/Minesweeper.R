@@ -409,3 +409,28 @@ Minesweeper <- function(n){
   }
 }
 #Minesweeper(1) #Example 
+
+
+library(shiny)
+
+ui <- fluidPage(
+  titlePanel("Démineur"),
+  sidebarLayout(
+    sidebarPanel(
+      numericInput("n", "Taille de la grille :", value = 10, min = 2, max = 20, step = 1),
+      actionButton("play", "Jouer !")
+    ),
+    mainPanel(
+      uiOutput("gameboard")
+    )
+  )
+)
+
+server <- function(input, output, session) {
+  output$gameboard <- renderUI({
+    req(input$play)
+    Minesweeper(input$n)
+  })
+}
+
+shinyApp(ui, server)
