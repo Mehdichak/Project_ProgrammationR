@@ -1,6 +1,6 @@
 # Programme Minesweeper :
 
-## Fonction Minesweeper(n) :
+## Fonction Minesweeper(n, nb_row, nb_col) :
 
 Fonction permettant de jouer au démineur avec la variable n le niveau de difficulté voulu
 
@@ -14,4 +14,8 @@ n = 4 : Expert
 
 n = 5 : Test de chance
 
-Le programme doit être exécuté pour fonctionner. Attention : le premier lancement peut avoir un disfonctionnement et afficher dans la fenêtre plot de Rstudio, un nouveau lancement du programme devrait corriger ce problème et ouvrir une fenêtre de démineur. 
+et nb_row le nombre de ligne et nb_col le nombre de colonne. 
+
+## Fonctionnement du programme : 
+
+Le programme lance une page HTML via le package Shiny afin d'éxécuter la fonction Minesweeper permettant de jouer au démineur. Attention, il est nécessaire de cliquer 2 fois sur le bouton "Jouer" pour que le programme s'éxecute sur le premier lancement. 
