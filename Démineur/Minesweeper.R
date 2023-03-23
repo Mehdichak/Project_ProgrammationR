@@ -395,29 +395,33 @@ game <- function(nb_rows, nb_cols, prob){
 
 # Gestion de la difficulté : 
 
-Minesweeper <- function(n){
+Minesweeper <- function(n, nb_row, nb_col){
   if (n == 5){
-    game(10, 20, 0.01) # One Luck
+    game(nb_row, nb_col, 0.01) # One Luck
   } else if (n == 4){
-    game(10, 20, 0.7) # Expert
+    game(nb_row, nb_col, 0.7) # Expert
   } else if (n == 3){
-    game(10, 20, 0.8)  # hard
+    game(nb_row, nb_col, 0.8)  # hard
   } else if (n == 2){
-    game(10, 20, 0.9) # Medium
+    game(nb_row, nb_col, 0.9) # Medium
   } else {
-    game(10, 20, 0.95) # Easy
+    game(nb_row, nb_col, 0.95) # Easy
   }
 }
-#Minesweeper(1) #Example 
 
+# Affichage via Shiny :
 
 library(shiny)
+library(shinythemes)
 
 ui <- fluidPage(
+  theme = shinythemes::shinytheme("cosmo"),
   titlePanel("Démineur"),
   sidebarLayout(
     sidebarPanel(
       numericInput("n", "Difficulté :", value = 2, min = 1, max = 5, step = 1),
+      numericInput("nb_row", "Nombre de lignes :", value = 10, min = 1, max = 50, step = 1),
+      numericInput("nb_col", "Nombre de colonnes :", value = 20, min = 1, max = 50, step = 1),
       actionButton("play", "Jouer !")
     ),
     mainPanel(
@@ -429,7 +433,7 @@ ui <- fluidPage(
 server <- function(input, output, session) {
   output$gameboard <- renderUI({
     req(input$play)
-    Minesweeper(input$n)
+    Minesweeper(input$n, input$nb_row, input$nb_col)
   })
 }
 
